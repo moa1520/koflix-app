@@ -1,19 +1,30 @@
-import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import React from "react";
+import "react-native-gesture-handler";
+import { NavigationContainer } from "@react-navigation/native";
+import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
+import { View, Text } from "react-native";
+import Movie from "./screens/Movie";
+import TV from "./screens/TV";
+import Search from "./screens/Search";
+
+const Tab = createBottomTabNavigator();
 
 export default function App() {
   return (
-    <View style={styles.container}>
-      <Text>Open up App.tsx to start working on your app!</Text>
-    </View>
+    <NavigationContainer>
+      <Tab.Navigator
+        initialRouteName="Movie"
+        tabBarOptions={{
+          activeTintColor: "white",
+          inactiveBackgroundColor: "rgba(20,20,20,1)",
+          activeBackgroundColor: "rgba(20,20,20,1)",
+          style: { backgroundColor: "rgba(20,20,20,1)" }
+        }}
+      >
+        <Tab.Screen name="Movie" component={Movie} />
+        <Tab.Screen name="TV" component={TV} />
+        <Tab.Screen name="Search" component={Search} />
+      </Tab.Navigator>
+    </NavigationContainer>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
