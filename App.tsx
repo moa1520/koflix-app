@@ -30,6 +30,10 @@ export default function App() {
           activeTintColor: "white",
           inactiveBackgroundColor: "black",
           activeBackgroundColor: "black",
+          labelStyle: {
+            fontWeight: "600",
+            fontSize: 14
+          },
           style: {
             backgroundColor: "black",
             borderTopColor: "transparent"
