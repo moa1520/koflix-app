@@ -7,6 +7,7 @@ import Movie from "./screens/Movie";
 import TV from "./screens/TV";
 import Search from "./screens/Search";
 import { BACKGROUND_COLOR } from "./styles";
+import NavIcon from "./components/NavIcon";
 
 const Tab = createBottomTabNavigator();
 const Stack = createStackNavigator();
@@ -30,6 +31,8 @@ export default function App() {
           activeTintColor: "white",
           inactiveBackgroundColor: "black",
           activeBackgroundColor: "black",
+          showLabel: false,
+          showIcon: true,
           labelStyle: {
             fontWeight: "600",
             fontSize: 14
@@ -40,7 +43,14 @@ export default function App() {
           }
         }}
       >
-        <Tab.Screen name="영화">
+        <Tab.Screen
+          name="영화"
+          options={{
+            tabBarIcon: ({ focused }) => (
+              <NavIcon name="ios-film" focused={focused} size={26} />
+            )
+          }}
+        >
           {() =>
             stackFactory(Movie, {
               headerTitle: "KOFLIX",
@@ -53,7 +63,14 @@ export default function App() {
             })
           }
         </Tab.Screen>
-        <Tab.Screen name="TV">
+        <Tab.Screen
+          name="TV"
+          options={{
+            tabBarIcon: ({ focused }) => (
+              <NavIcon name="ios-tv" focused={focused} size={26} />
+            )
+          }}
+        >
           {() =>
             stackFactory(TV, {
               headerTitle: "KOFLIX",
@@ -66,7 +83,15 @@ export default function App() {
             })
           }
         </Tab.Screen>
-        <Tab.Screen name="검색" component={Search} />
+        <Tab.Screen
+          name="검색"
+          component={Search}
+          options={{
+            tabBarIcon: ({ focused }) => (
+              <NavIcon name="ios-search" focused={focused} size={26} />
+            )
+          }}
+        />
       </Tab.Navigator>
     </NavigationContainer>
   );
