@@ -5,9 +5,9 @@ import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { createStackNavigator } from "@react-navigation/stack";
 import Movie from "./screens/Movie";
 import TV from "./screens/TV";
-import Search from "./screens/Search";
 import { BACKGROUND_COLOR } from "./styles";
 import NavIcon from "./components/NavIcon";
+import Search from "./screens/Search";
 
 const Tab = createBottomTabNavigator();
 const Stack = createStackNavigator();
@@ -85,13 +85,14 @@ export default function App() {
         </Tab.Screen>
         <Tab.Screen
           name="검색"
-          component={Search}
           options={{
             tabBarIcon: ({ focused }) => (
               <NavIcon name="ios-search" focused={focused} size={26} />
             )
           }}
-        />
+        >
+          {() => stackFactory(Search, {})}
+        </Tab.Screen>
       </Tab.Navigator>
     </NavigationContainer>
   );
