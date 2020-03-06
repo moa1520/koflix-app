@@ -69,7 +69,10 @@ export default function App() {
             stackFactory(Movie, {
               headerTitle: "KOFLIX",
               headerTintColor: "red",
-              headerTitleStyle: { fontWeight: "bold", fontSize: 22 },
+              headerTitleStyle: {
+                fontWeight: "bold",
+                fontSize: 22
+              },
               headerStyle: {
                 backgroundColor: BACKGROUND_COLOR,
                 shadowColor: "transparent"

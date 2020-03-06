@@ -67,7 +67,7 @@ function Movie({ navigation }) {
             <Section>
               <Bold>Now Playing</Bold>
               <Container>
-                {nowPlaying.map(p => (
+                {nowPlaying.map((p: any) => (
                   <Poster key={p.id} {...p} />
                 ))}
               </Container>

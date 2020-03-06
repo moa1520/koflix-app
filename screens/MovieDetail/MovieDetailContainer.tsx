@@ -13,7 +13,6 @@ const MovieDetailContainer = ({
   const detailFetch = async () => {
     try {
       const { data: result } = await moviesApi.movieDetail(parsedId);
-      
       setResult(result);
     } catch (e) {
       console.log(e);

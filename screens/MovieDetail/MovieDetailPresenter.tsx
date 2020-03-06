@@ -1,8 +1,9 @@
-import React from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
 import { AppLoading } from "expo";
 import { ScrollView, Image, View } from "react-native";
 import { BlurView } from "expo-blur";
+import { collectionApi } from "../../api";
 
 const Wrapper = styled.View`
   flex: 1;
@@ -38,7 +39,62 @@ const Overview = styled.Text`
   margin-top: 10px;
 `;
 
+const Bold = styled.Text`
+  font-size: 18px;
+  font-weight: 600;
+  color: white;
+`;
+
+const Button = styled.TouchableOpacity`
+  width: 80px;
+  height: 35px;
+  justify-content: center;
+  align-items: center;
+  background-color: rgb(20, 20, 20);
+  border-radius: 5px;
+  border: 1px solid rgb(50, 50, 50);
+  margin-right: 10px;
+`;
+
+const SeriesPart = styled.View`
+  margin: 10px;
+`;
+
 const MovieDetailPresenter = ({ loading, data }) => {
+  const [series, setSeries] = useState();
+  const [seriesView, setSeriesView] = useState(false);
+
+  const country = (nation: string): string => {
+    switch (nation) {
+      case "US":
+        return "🇺🇸";
+      case "KR":
+        return "🇰🇷";
+      case "CA":
+        return "🇨🇦";
+      case "JP":
+        return "🇯🇵";
+      case "BR":
+        return "🇧🇷";
+      case "AU":
+        return "🇦🇺";
+      case "DE":
+        return "🇩🇪";
+      case "GB":
+        return "🇬🇧";
+      default:
+        return nation;
+    }
+  };
+
+  const handleSeries = async () => {
+    const { data: series } = await collectionApi.getCollection(
+      data.belongs_to_collection.id
+    );
+    setSeries(series);
+    setSeriesView(p => !p);
+  };
+
   return (
     <Wrapper>
       {loading ? (
@@ -55,17 +111,27 @@ const MovieDetailPresenter = ({ loading, data }) => {
               <View style={{ flexDirection: "row" }}>
                 <Image
                   style={{
-                    width: 150,
-                    height: 230,
+                    width: 140,
+                    height: 210,
                     resizeMode: "contain",
-                    marginRight: 10
+                    marginRight: 10,
+                    borderRadius: 5
                   }}
                   source={{
                     uri: `https://image.tmdb.org/t/p/original${data.poster_path}`
                   }}
                 />
                 <View style={{ width: "60%" }}>
-                  <Title>{data.title}</Title>
+                  <Title
+                    style={{
+                      textShadowOffset: { width: 0.5, height: 0.5 },
+                      textShadowColor: "black",
+                      textShadowRadius: 2
+                    }}
+                  >
+                    {data.title} •{" "}
+                    {country(data.production_countries[0].iso_3166_1)}
+                  </Title>
                   <Info>
                     {data.release_date.substring(0, 4)} • {data.runtime}분 •{" "}
                     {data.genres.map((element: object, index: number) =>
@@ -76,6 +142,41 @@ const MovieDetailPresenter = ({ loading, data }) => {
                   </Info>
                   <Overview>{data.overview}</Overview>
                 </View>
+              </View>
+              <View style={{ marginTop: 10 }}>
+                <View style={{ flexDirection: "row" }}>
+                  {data.belongs_to_collection && (
+                    <Button onPress={handleSeries}>
+                      <Bold
+                        style={{
+                          textShadowOffset: { width: 0.5, height: 0.5 },
+                          textShadowColor: "black",
+                          textShadowRadius: 2
+                        }}
+                      >
+                        시리즈
+                      </Bold>
+                    </Button>
+                  )}
+                  <Button>
+                    <Bold
+                      style={{
+                        textShadowOffset: { width: 0.5, height: 0.5 },
+                        textShadowColor: "black",
+                        textShadowRadius: 2
+                      }}
+                    >
+                      예고편
+                    </Bold>
+                  </Button>
+                </View>
+                <SeriesPart>
+                  {series &&
+                    seriesView &&
+                    series.parts.map((p: any) => (
+                      <Text key={p.id}>{p.title}</Text>
+                    ))}
+                </SeriesPart>
               </View>
             </ScrollView>
           </BlurView>
