@@ -68,9 +68,7 @@ function TV() {
               <Bold>Top Rated</Bold>
               <Container>
                 {topRated.map((p: any) => (
-                  <TouchableOpacity key={p.id}>
-                    <TVPoster {...p} />
-                  </TouchableOpacity>
+                  <TVPoster key={p.id} {...p} />
                 ))}
               </Container>
             </Section>
@@ -78,9 +76,7 @@ function TV() {
               <Bold>Popular</Bold>
               <Container>
                 {popular.map((p: any) => (
-                  <TouchableOpacity key={p.id}>
-                    <TVPoster {...p} />
-                  </TouchableOpacity>
+                  <TVPoster key={p.id} {...p} />
                 ))}
               </Container>
             </Section>
@@ -88,9 +84,7 @@ function TV() {
               <Bold>Airing Today</Bold>
               <Container>
                 {airingToday.map((p: any) => (
-                  <TouchableOpacity key={p.id}>
-                    <TVPoster {...p} />
-                  </TouchableOpacity>
+                  <TVPoster key={p.id} {...p} />
                 ))}
               </Container>
             </Section>

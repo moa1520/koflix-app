@@ -19,7 +19,7 @@ const Section = styled.View`
   margin-bottom: 15px;
 `;
 
-function Movie() {
+function Movie({ navigation }) {
   const [nowPlaying, setNowPlaying] = useState();
   const [upcoming, setUpcoming] = useState();
   const [popular, setPopular] = useState();
@@ -67,10 +67,8 @@ function Movie() {
             <Section>
               <Bold>Now Playing</Bold>
               <Container>
-                {nowPlaying.map((p: any) => (
-                  <TouchableOpacity key={p.id}>
-                    <Poster {...p} />
-                  </TouchableOpacity>
+                {nowPlaying.map(p => (
+                  <Poster key={p.id} {...p} />
                 ))}
               </Container>
             </Section>
@@ -78,9 +76,7 @@ function Movie() {
               <Bold>Upcoming</Bold>
               <Container>
                 {upcoming.map((p: any) => (
-                  <TouchableOpacity key={p.id}>
-                    <Poster {...p} />
-                  </TouchableOpacity>
+                  <Poster key={p.id} {...p} />
                 ))}
               </Container>
             </Section>
@@ -88,9 +84,7 @@ function Movie() {
               <Bold>Popular</Bold>
               <Container>
                 {popular.map((p: any) => (
-                  <TouchableOpacity key={p.id}>
-                    <Poster {...p} />
-                  </TouchableOpacity>
+                  <Poster key={p.id} {...p} />
                 ))}
               </Container>
             </Section>

@@ -1,5 +1,6 @@
 import React from "react";
-import { Image } from "react-native";
+import { Image, TouchableOpacity } from "react-native";
+import { withNavigation } from "@react-navigation/compat";
 import styled from "styled-components";
 import constants from "../constants";
 
@@ -12,21 +13,32 @@ const Text = styled.Text`
   font-size: 12px;
 `;
 
-const Poster = ({ poster_path, title }): any => {
+const Poster = ({ id, poster_path, title, navigation }) => {
   const realPath = "https://image.tmdb.org/t/p/w300" + poster_path;
   return (
-    <View>
-      <Image
-        style={{
-          width: constants.width / 3.3,
-          height: constants.height / 4.3
-        }}
-        source={{ uri: realPath }}
-        resizeMode="contain"
-      />
-      <Text> {title.length > 11 ? `${title.substring(0, 11)}...` : title}</Text>
-    </View>
+    <TouchableOpacity
+      onPress={() =>
+        navigation.navigate("Detail", {
+          title,
+          id
+        })
+      }
+    >
+      <View>
+        <Image
+          style={{
+            width: constants.width / 3.3,
+            height: constants.height / 4.3
+          }}
+          source={{ uri: realPath }}
+          resizeMode="contain"
+        />
+        <Text>
+          {title.length > 11 ? `${title.substring(0, 11)}...` : title}
+        </Text>
+      </View>
+    </TouchableOpacity>
   );
 };
 
-export default Poster;
+export default withNavigation(Poster);

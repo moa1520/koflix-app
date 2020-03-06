@@ -8,16 +8,30 @@ import TV from "./screens/TV";
 import { BACKGROUND_COLOR } from "./styles";
 import NavIcon from "./components/NavIcon";
 import Search from "./screens/Search";
+import MovieDetail from "./screens/MovieDetail";
 
 const Tab = createBottomTabNavigator();
 const Stack = createStackNavigator();
 
 const stackFactory = (initialRoute: any, customConfig: any) => (
-  <Stack.Navigator>
+  <Stack.Navigator
+    screenOptions={{
+      headerBackTitleVisible: false,
+      headerStyle: { backgroundColor: BACKGROUND_COLOR },
+      headerTintColor: "white"
+    }}
+  >
     <Stack.Screen
       name="InitialRoute"
       component={initialRoute}
       options={{ ...customConfig }}
+    />
+    <Stack.Screen
+      name="Detail"
+      component={MovieDetail}
+      options={({ route }: any) => ({
+        title: route.params.title
+      })}
     />
   </Stack.Navigator>
 );
