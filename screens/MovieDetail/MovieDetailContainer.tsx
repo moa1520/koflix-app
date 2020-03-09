@@ -23,7 +23,7 @@ const MovieDetailContainer = ({
 
   useEffect(() => {
     detailFetch();
-  }, []);
+  }, [id]);
 
   return <MovieDetailPresenter loading={loading} data={result} />;
 };

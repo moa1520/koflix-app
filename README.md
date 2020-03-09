@@ -7,5 +7,6 @@
 - [x] Search 탭 완성(3. 6)
 - [ ] 영화 Detail 완성
   - [x] 제목, 정보, 오버뷰 완성
+  - [ ] Series Part 진행 중
   - [ ] Youtube 링크, Collection 삽입
 - [ ] TV Detail 완성

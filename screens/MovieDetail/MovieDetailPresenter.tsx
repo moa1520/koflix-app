@@ -4,6 +4,7 @@ import { AppLoading } from "expo";
 import { ScrollView, Image, View } from "react-native";
 import { BlurView } from "expo-blur";
 import { collectionApi } from "../../api";
+import Poster from "../../components/Poster";
 
 const Wrapper = styled.View`
   flex: 1;
@@ -57,12 +58,18 @@ const Button = styled.TouchableOpacity`
 `;
 
 const SeriesPart = styled.View`
+  flex-direction: row;
+  flex-wrap: wrap;
   margin: 10px;
+  justify-content: space-around;
 `;
+
+const PreviewPart = styled.View``;
 
 const MovieDetailPresenter = ({ loading, data }) => {
   const [series, setSeries] = useState();
   const [seriesView, setSeriesView] = useState(false);
+  const [preview, setPreview] = useState(false);
 
   const country = (nation: string): string => {
     switch (nation) {
@@ -93,6 +100,11 @@ const MovieDetailPresenter = ({ loading, data }) => {
     );
     setSeries(series);
     setSeriesView(p => !p);
+  };
+
+  const handlePreview = () => {
+    setSeriesView(false);
+    setPreview(p => !p);
   };
 
   return (
@@ -158,7 +170,7 @@ const MovieDetailPresenter = ({ loading, data }) => {
                       </Bold>
                     </Button>
                   )}
-                  <Button>
+                  <Button onPress={handlePreview}>
                     <Bold
                       style={{
                         textShadowOffset: { width: 0.5, height: 0.5 },
@@ -173,10 +185,14 @@ const MovieDetailPresenter = ({ loading, data }) => {
                 <SeriesPart>
                   {series &&
                     seriesView &&
-                    series.parts.map((p: any) => (
-                      <Text key={p.id}>{p.title}</Text>
-                    ))}
+                    series.parts.map((p: any) => <Poster key={p.id} {...p} />)}
                 </SeriesPart>
+                <PreviewPart>
+                  {preview &&
+                    data.videos.results.map((video: any) => (
+                      <Bold key={video.id}>{video.key}</Bold>
+                    ))}
+                </PreviewPart>
               </View>
             </ScrollView>
           </BlurView>
