@@ -58,8 +58,11 @@ const SeasonPart = styled.View`
   flex-wrap: wrap;
 `;
 
+const LastPart = styled.View``;
+
 const TVDetailPresenter = ({ loading, data }) => {
   const [seasonsView, setSeasonsView] = useState(false);
+  const [lastView, setLastView] = useState(false);
 
   const country = (nation: string): string => {
     switch (nation) {
@@ -86,6 +89,11 @@ const TVDetailPresenter = ({ loading, data }) => {
 
   const handleSeasons = () => {
     setSeasonsView(p => !p);
+    setLastView(false);
+  };
+  const handleLast = () => {
+    setLastView(p => !p);
+    setSeasonsView(false);
   };
   return (
     <Wrapper>
@@ -157,7 +165,7 @@ const TVDetailPresenter = ({ loading, data }) => {
                       </Bold>
                     </Button>
                   )}
-                  <Button>
+                  <Button onPress={handleLast}>
                     <Bold
                       style={{
                         textShadowOffset: { width: 0.5, height: 0.5 },
@@ -180,6 +188,32 @@ const TVDetailPresenter = ({ loading, data }) => {
                       />
                     ))}
                 </SeasonPart>
+                <LastPart>
+                  {lastView && (
+                    <>
+                      <Image
+                        style={{
+                          width: "100%",
+                          height: 220,
+                          resizeMode: "contain"
+                        }}
+                        source={{
+                          uri: `https://image.tmdb.org/t/p/original${data.last_episode_to_air.still_path}`
+                        }}
+                      />
+                      <Bold>
+                        {data.last_episode_to_air.name} • ⭐
+                        {data.last_episode_to_air.vote_average} / 10
+                      </Bold>
+                      <Overview>
+                        {data.last_episode_to_air.air_date
+                          .replace("-", "년 ")
+                          .replace("-", "월 ")}
+                        일 • {data.last_episode_to_air.episode_number}화
+                      </Overview>
+                    </>
+                  )}
+                </LastPart>
               </View>
             </ScrollView>
           </BlurView>
