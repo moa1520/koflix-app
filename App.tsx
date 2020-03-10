@@ -9,6 +9,7 @@ import { BACKGROUND_COLOR } from "./styles";
 import NavIcon from "./components/NavIcon";
 import Search from "./screens/Search";
 import MovieDetail from "./screens/MovieDetail";
+import TVDetail from "./screens/TVDetail";
 
 const Tab = createBottomTabNavigator();
 const Stack = createStackNavigator();
@@ -31,6 +32,13 @@ const stackFactory = (initialRoute: any, customConfig: any) => (
       component={MovieDetail}
       options={({ route }: any) => ({
         title: route.params.title
+      })}
+    />
+    <Stack.Screen
+      name="TVDetail"
+      component={TVDetail}
+      options={({ route }: any) => ({
+        title: route.params.name
       })}
     />
   </Stack.Navigator>

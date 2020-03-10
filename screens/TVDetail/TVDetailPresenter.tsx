@@ -1,26 +1,16 @@
 import React, { useState } from "react";
 import styled from "styled-components";
 import { AppLoading } from "expo";
-import {
-  ScrollView,
-  Image,
-  View,
-  TouchableOpacity,
-  Linking
-} from "react-native";
 import { BlurView } from "expo-blur";
+import { ScrollView, View, Image } from "react-native";
 import { collectionApi } from "../../api";
-import Poster from "../../components/Poster";
+import TVPoster from "../../components/TVPoster";
 
 const Wrapper = styled.View`
   flex: 1;
   justify-content: center;
   align-items: center;
   background-color: rgba(20, 20, 20, 1);
-`;
-
-const Text = styled.Text`
-  color: white;
 `;
 
 const Container = styled.ImageBackground`
@@ -46,12 +36,6 @@ const Overview = styled.Text`
   margin-top: 10px;
 `;
 
-const Bold = styled.Text`
-  font-size: 18px;
-  font-weight: 600;
-  color: white;
-`;
-
 const Button = styled.TouchableOpacity`
   width: 80px;
   height: 35px;
@@ -63,21 +47,19 @@ const Button = styled.TouchableOpacity`
   margin-right: 10px;
 `;
 
-const SeriesPart = styled.View`
+const Bold = styled.Text`
+  font-size: 16px;
+  font-weight: 600;
+  color: white;
+`;
+
+const SeasonPart = styled.View`
   flex-direction: row;
   flex-wrap: wrap;
 `;
 
-const PreviewPart = styled.View`
-  flex-direction: row;
-  flex-wrap: wrap;
-  justify-content: center;
-`;
-
-const MovieDetailPresenter = ({ loading, data }) => {
-  const [series, setSeries] = useState();
-  const [seriesView, setSeriesView] = useState(false);
-  const [preview, setPreview] = useState(false);
+const TVDetailPresenter = ({ loading, data }) => {
+  const [seasonsView, setSeasonsView] = useState(false);
 
   const country = (nation: string): string => {
     switch (nation) {
@@ -102,19 +84,9 @@ const MovieDetailPresenter = ({ loading, data }) => {
     }
   };
 
-  const handleSeries = async () => {
-    const { data: series } = await collectionApi.getCollection(
-      data.belongs_to_collection.id
-    );
-    setSeries(series);
-    setSeriesView(p => !p);
+  const handleSeasons = () => {
+    setSeasonsView(p => !p);
   };
-
-  const handlePreview = () => {
-    setSeriesView(false);
-    setPreview(p => !p);
-  };
-
   return (
     <Wrapper>
       {loading ? (
@@ -156,11 +128,11 @@ const MovieDetailPresenter = ({ loading, data }) => {
                       textShadowRadius: 2
                     }}
                   >
-                    {data.title} •{" "}
-                    {country(data.production_countries[0].iso_3166_1)}
+                    {data.name} • {country(data.origin_country[0])}
                   </Title>
                   <Info>
-                    {data.release_date.substring(0, 4)} • {data.runtime}분 •{" "}
+                    {data.last_air_date && data.last_air_date.substring(0, 4)} •{" "}
+                    {data.episode_run_time[0]}분 •{" "}
                     {data.genres.map((element: object, index: number) =>
                       index === data.genres.length - 1
                         ? element["name"]
@@ -172,8 +144,8 @@ const MovieDetailPresenter = ({ loading, data }) => {
               </View>
               <View style={{ marginTop: 10 }}>
                 <View style={{ flexDirection: "row" }}>
-                  {data.belongs_to_collection && (
-                    <Button onPress={handleSeries}>
+                  {data.seasons && (
+                    <Button onPress={handleSeasons}>
                       <Bold
                         style={{
                           textShadowOffset: { width: 0.5, height: 0.5 },
@@ -181,11 +153,11 @@ const MovieDetailPresenter = ({ loading, data }) => {
                           textShadowRadius: 2
                         }}
                       >
-                        시리즈
+                        시즌
                       </Bold>
                     </Button>
                   )}
-                  <Button onPress={handlePreview}>
+                  <Button>
                     <Bold
                       style={{
                         textShadowOffset: { width: 0.5, height: 0.5 },
@@ -193,39 +165,21 @@ const MovieDetailPresenter = ({ loading, data }) => {
                         textShadowRadius: 2
                       }}
                     >
-                      예고편
+                      마지막 화
                     </Bold>
                   </Button>
                 </View>
-                <SeriesPart>
-                  {series &&
-                    seriesView &&
-                    series.parts.map((p: any) => <Poster key={p.id} {...p} />)}
-                </SeriesPart>
-                <PreviewPart>
-                  {preview &&
-                    data.videos.results.map((video: any, index: number) => (
-                      <TouchableOpacity
-                        key={video.id}
-                        style={{
-                          width: 100,
-                          height: 40,
-                          backgroundColor: "rgba(20, 20, 20, 0.7)",
-                          alignItems: "center",
-                          justifyContent: "center",
-                          marginRight: 10,
-                          marginTop: 10
-                        }}
-                        onPress={() => {
-                          Linking.openURL(
-                            `https://www.youtube.com/watch?v=${video.key}`
-                          );
-                        }}
-                      >
-                        <Bold>예고편 {index + 1}</Bold>
-                      </TouchableOpacity>
+                <SeasonPart>
+                  {seasonsView &&
+                    data.seasons.map((season: any) => (
+                      <TVPoster
+                        key={season.id}
+                        {...season}
+                        id={data.id}
+                        name={data.name}
+                      />
                     ))}
-                </PreviewPart>
+                </SeasonPart>
               </View>
             </ScrollView>
           </BlurView>
@@ -235,4 +189,4 @@ const MovieDetailPresenter = ({ loading, data }) => {
   );
 };
 
-export default MovieDetailPresenter;
+export default TVDetailPresenter;

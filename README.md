@@ -10,3 +10,5 @@
   - [x] Series Part 진행 중
   - [x] Youtube 링크, Collection 삽입
 - [ ] TV Detail 완성
+  - [x] Season 파트 완성
+  - [ ] 마지막 화 진행 중

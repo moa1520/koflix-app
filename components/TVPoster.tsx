@@ -13,10 +13,12 @@ const Text = styled.Text`
   font-size: 12px;
 `;
 
-const TVPoster = ({ poster_path, name, navigation }): any => {
+const TVPoster = ({ id, poster_path, name, navigation }): any => {
   const realPath = "https://image.tmdb.org/t/p/w300" + poster_path;
   return (
-    <TouchableOpacity>
+    <TouchableOpacity
+      onPress={() => navigation.navigate("TVDetail", { id, name })}
+    >
       <View>
         <Image
           style={{
