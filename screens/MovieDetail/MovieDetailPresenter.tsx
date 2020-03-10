@@ -1,7 +1,13 @@
 import React, { useState } from "react";
 import styled from "styled-components";
 import { AppLoading } from "expo";
-import { ScrollView, Image, View } from "react-native";
+import {
+  ScrollView,
+  Image,
+  View,
+  TouchableOpacity,
+  Linking
+} from "react-native";
 import { BlurView } from "expo-blur";
 import { collectionApi } from "../../api";
 import Poster from "../../components/Poster";
@@ -64,7 +70,11 @@ const SeriesPart = styled.View`
   justify-content: space-around;
 `;
 
-const PreviewPart = styled.View``;
+const PreviewPart = styled.View`
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: center;
+`;
 
 const MovieDetailPresenter = ({ loading, data }) => {
   const [series, setSeries] = useState();
@@ -189,8 +199,26 @@ const MovieDetailPresenter = ({ loading, data }) => {
                 </SeriesPart>
                 <PreviewPart>
                   {preview &&
-                    data.videos.results.map((video: any) => (
-                      <Bold key={video.id}>{video.key}</Bold>
+                    data.videos.results.map((video: any, index: number) => (
+                      <TouchableOpacity
+                        key={video.id}
+                        style={{
+                          width: 100,
+                          height: 40,
+                          backgroundColor: "rgba(20, 20, 20, 0.7)",
+                          alignItems: "center",
+                          justifyContent: "center",
+                          marginRight: 10,
+                          marginTop: 10
+                        }}
+                        onPress={() => {
+                          Linking.openURL(
+                            `https://www.youtube.com/watch?v=${video.key}`
+                          );
+                        }}
+                      >
+                        <Bold>예고편 {index + 1}</Bold>
+                      </TouchableOpacity>
                     ))}
                 </PreviewPart>
               </View>

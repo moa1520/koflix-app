@@ -6,8 +6,10 @@ import { tvApi } from "../api";
 import TVPoster from "../components/TVPoster";
 
 const Bold = styled.Text`
-  color: white;
+  color: red;
+  opacity: 0.8;
   font-weight: 600;
+  font-size: 16px;
 `;
 
 const Container = styled.View`

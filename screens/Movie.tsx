@@ -6,8 +6,10 @@ import { moviesApi } from "../api";
 import Poster from "../components/Poster";
 
 const Bold = styled.Text`
-  color: white;
+  color: red;
+  opacity: 0.8;
   font-weight: 600;
+  font-size: 16px;
 `;
 
 const Container = styled.View`
@@ -65,7 +67,7 @@ function Movie({ navigation }) {
         ) : (
           <>
             <Section>
-              <Bold>Now Playing</Bold>
+              <Bold>현재상영영화</Bold>
               <Container>
                 {nowPlaying.map((p: any) => (
                   <Poster key={p.id} {...p} />
@@ -73,7 +75,7 @@ function Movie({ navigation }) {
               </Container>
             </Section>
             <Section>
-              <Bold>Upcoming</Bold>
+              <Bold>개봉예정영화</Bold>
               <Container>
                 {upcoming.map((p: any) => (
                   <Poster key={p.id} {...p} />
@@ -81,7 +83,7 @@ function Movie({ navigation }) {
               </Container>
             </Section>
             <Section>
-              <Bold>Popular</Bold>
+              <Bold>인기많은영화</Bold>
               <Container>
                 {popular.map((p: any) => (
                   <Poster key={p.id} {...p} />
